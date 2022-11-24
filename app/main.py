@@ -2,11 +2,13 @@ import asyncio
 import typer
 from fastapi import FastAPI
 
-from .db import init_models
-from .endpoints import router
+from . import blog
+from . import post
+from app.db import init_models
 
 app = FastAPI()
-app.include_router(router)
+app.include_router(blog.router)
+app.include_router(post.router)
 
 cli = typer.Typer()
 

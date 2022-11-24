@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Path, Request
+from fastapi import APIRouter, Request
 
 router = APIRouter(prefix="/blogs")
 
