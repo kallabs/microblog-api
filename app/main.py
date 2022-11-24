@@ -1,15 +1,26 @@
-from typing import Union
-
+import asyncio
+import typer
 from fastapi import FastAPI
 
+from .db import init_models
+from .endpoints import router
+
 app = FastAPI()
+app.include_router(router)
+
+cli = typer.Typer()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@cli.command()
+def db_init_modes():
+    asyncio.run(init_models())
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+@app.on_event('startup')
+async def startup():
+    print('Startup Application')
+
+
+@app.on_event('shutdown')
+async def shutdown():
+    print('Shutdown Application')
