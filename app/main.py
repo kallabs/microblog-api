@@ -26,3 +26,7 @@ async def startup():
 @app.on_event('shutdown')
 async def shutdown():
     print('Shutdown Application')
+
+@app.get("/")
+async def root():
+    return {'message': 'It works!'}

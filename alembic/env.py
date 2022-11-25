@@ -9,6 +9,9 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 
 from alembic import context
 
+DATABASE_URL = os.environ["DATABASE_URL"]
+print(f'Database url = {DATABASE_URL}')
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -20,13 +23,16 @@ if config.config_file_name is not None:
 
 # this will overwrite the ini-file sqlalchemy.url path
 # with the path given in the config of the main code
-config.set_main_option("sqlalchemy.url", os.environ["DATABASE_URL"])
+config.set_main_option("sqlalchemy.url", DATABASE_URL)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from app import db
+from app.blog.models import *
+from app.post.models import *
+
 target_metadata = db.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
