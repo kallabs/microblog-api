@@ -3,8 +3,8 @@ import datetime as dt
 from sqlalchemy import Column, DateTime, Integer, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
 
-from app.db import Base
-from app.blog.models import Blog
+from .db import Base
+from .blog import Blog
 
 
 class Post(Base):

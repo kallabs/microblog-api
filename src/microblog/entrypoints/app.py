@@ -2,14 +2,9 @@ import asyncio
 import typer
 from fastapi import FastAPI
 
-from . import blog
-from . import post
-from app.db import init_models
+from microblog.adapters.orm.db import init_models
 
 app = FastAPI()
-app.include_router(blog.router)
-app.include_router(post.router)
-
 cli = typer.Typer()
 
 

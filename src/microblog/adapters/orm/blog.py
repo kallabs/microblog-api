@@ -3,7 +3,7 @@ import datetime as dt
 from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.orm import relationship
 
-from app.db import Base
+from .db import Base
 
 
 class Blog(Base):
@@ -15,5 +15,5 @@ class Blog(Base):
     desc = Column(String(512))
     created_at = Column(DateTime, default=dt.datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=dt.datetime.now, onupdate=dt.datetime.now, nullable=False)
-
+    
     posts = relationship("Post", back_populates="Post")
