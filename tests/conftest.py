@@ -1,7 +1,7 @@
 import pytest
 from httpx import AsyncClient
 
-from microblog.main import app
+from microblog.entrypoints.app import app
 
 
 @pytest.fixture
