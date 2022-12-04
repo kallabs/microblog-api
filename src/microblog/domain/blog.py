@@ -1,4 +1,7 @@
+from __future__ import annotations
 from datetime import datetime
+
+from .post import Post
 
 
 class Blog:
@@ -9,4 +12,7 @@ class Blog:
         self.desc = desc
         self.created_at = created_at
         self.updated_at = updated_at
-        self.posts = []
+        self.set_posts(posts)
+    
+    def set_posts(self, posts: list[Post]) -> None:
+        self.posts = posts
