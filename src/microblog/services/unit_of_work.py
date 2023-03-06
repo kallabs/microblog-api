@@ -1,14 +1,14 @@
 import abc
 
 from microblog.adapters.orm.db import async_session
-from microblog.adapters.repos.abstract import AbstractBlogRepo
-from microblog.adapters.repos.sqlalchemy.blog import AlchemyBlogRepo
+from microblog.adapters.repos.abstract import AbstractPostRepo
+from microblog.adapters.repos.sqlalchemy.post import AlchemyPostRepo
 
 
 class AbstractUnitOfWork(abc.ABC):
-    blogs: AbstractBlogRepo
+    posts: AbstractPostRepo
 
-    def __exit__(self):
+    def __exit__(self, *args):
         self.rollback()
 
     @abc.abstractmethod
@@ -20,17 +20,14 @@ class AbstractUnitOfWork(abc.ABC):
         raise NotImplementedError
 
 
-
-class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
+class AlchemyUnitOfWork(AbstractUnitOfWork):
     def __init__(self, session_factory=async_session):
         self.session_factory = session_factory
 
     def __enter__(self):
         self.session = self.session_factory()
-        self.blogs = AlchemyBlogRepo(self.session)
+        self.posts = AlchemyPostRepo(self.session)
         
-        return super().__enter__()
-
     def __exit__(self, *args):
         super().__exit__(*args)
         self.session.close()

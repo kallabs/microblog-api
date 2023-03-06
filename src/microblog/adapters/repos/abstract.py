@@ -1,16 +1,16 @@
 from abc import ABC, abstractmethod
-from microblog.domain.blog import Blog
+from microblog.domain.entities import Post
 
 
 class AbstractRepo(ABC):
     ...
 
 
-class AbstractBlogRepo(AbstractRepo):
+class AbstractPostRepo(AbstractRepo):
     @abstractmethod
-    def create(self, blog: Blog) -> Blog:
+    def create(self, post: Post) -> Post:
         raise NotImplementedError
     
     @abstractmethod
-    def get(self, id: int) -> Blog:
+    def get(self, id: int) -> Post:
         raise NotImplementedError

@@ -1,33 +1,40 @@
 import datetime as dt
 
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, mapper
 
 from .db import Base
 
 
-class Blog(Base):
-    __tablename__ =  'blogs'
+class PostTag(Base):
+    __tablename__ = "post_tag"
 
-    id = Column(Integer, primary_key=True, index=True, unique=True)
-    owner_id = Column(Integer, index=True, nullable=False)
-    title = Column(String(256), nullable=False)
-    desc = Column(String(512))
-    created_at = Column(DateTime, default=dt.datetime.utcnow, nullable=False)
-    updated_at = Column(DateTime, default=dt.datetime.now, onupdate=dt.datetime.now, nullable=False)
-    
-    posts = relationship("Post", back_populates="Post")
+    post_id = Column(Integer, ForeignKey('posts.id'), primary_key=True)
+    tag_id = Column(Integer, ForeignKey('tags.id'), primary_key=True)
+
+
+class Tag(Base):
+    __tablename__ =  'tags'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    posts = relationship('Post', secondary='post_tag', back_populates='tags')
+
+    def __repr__(self):
+        return f'<Tag "{self.name}">' 
 
 
 class Post(Base):
     __tablename__ = 'posts'
 
     id = Column(Integer, primary_key=True, index=True, unique=True)
-    blog_id = Column(Integer, ForeignKey(f"{Blog.__table__.name}.id"), nullable=False, index=True)
     author_id = Column(Integer, nullable=False, index=True)
-    title = Column(String(265), nullable=False)
+    title = Column(String(255), nullable=False)
     content = Column(Text, nullable=False)
+    slug = Column(String(255), nullable=False)
+    status = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=dt.datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=dt.datetime.now, onupdate=dt.datetime.now, nullable=False)
+    published_at = Column(DateTime, nullable=True)
     
-    blog = relationship("Blog", back_populates="posts")
+    tags = relationship('Tag', secondary='post_tag', back_populates='posts')

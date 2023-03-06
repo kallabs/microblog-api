@@ -6,7 +6,10 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 
-engine = create_async_engine(os.environ['DATABASE_URL'], echo=True)
+engine = create_async_engine(
+    os.environ.get('DATABASE_URL'), 
+    echo=True,
+    isolation_level="REPEATABLE READ",)
 Base = declarative_base()
 async_session = sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False
