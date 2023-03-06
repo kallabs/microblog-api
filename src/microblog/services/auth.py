@@ -1,13 +1,9 @@
 import logging
-from datetime import datetime, timedelta
-from typing import Union
 
 from fastapi import Request, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from decouple import config
-from passlib.context import CryptContext
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +17,6 @@ class TokenData(BaseModel):
 
 class User(BaseModel):
     id: int
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login/")
 
 async def get_current_user(request: Request):
     credentials_exception = HTTPException(

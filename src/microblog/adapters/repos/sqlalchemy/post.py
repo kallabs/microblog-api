@@ -21,7 +21,7 @@ class AlchemyPostRepo(AbstractPostRepo):
 
         return post_obj
     
-    def get(self, id: int) -> Post:
+    async def get(self, id: int) -> Post:
         return self.session.query(models.Post)\
             .filter_by(id=id)\
             .first()
