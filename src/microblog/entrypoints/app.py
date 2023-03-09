@@ -2,8 +2,8 @@ import asyncio
 import typer
 from fastapi import FastAPI
 
-from .router import router
-from microblog.adapters.orm.db import init_models
+from ..adapters.router import router
+from ..adapters.persistence.db import init_models
 
 app = FastAPI()
 app.include_router(router)

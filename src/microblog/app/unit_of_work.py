@@ -1,6 +1,6 @@
 import abc
 
-from microblog.adapters.orm.db import async_session
+from microblog.adapters.persistence.db import async_session
 from microblog.adapters.repos.abstract import AbstractPostRepo
 from microblog.adapters.repos.sqlalchemy.post import AlchemyPostRepo
 

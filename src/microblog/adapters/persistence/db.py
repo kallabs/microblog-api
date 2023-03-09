@@ -12,8 +12,7 @@ engine = create_async_engine(
     isolation_level="REPEATABLE READ",)
 Base = declarative_base()
 async_session = sessionmaker(
-    engine, class_=AsyncSession, expire_on_commit=False
-)
+    engine, class_=AsyncSession, expire_on_commit=False)
 
 async def init_models():
     async with engine.begin() as conn:

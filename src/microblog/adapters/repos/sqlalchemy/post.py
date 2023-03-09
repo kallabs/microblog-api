@@ -2,7 +2,7 @@ import logging
 
 from ..abstract import AbstractPostRepo
 from microblog.domain.entities import Post
-from microblog.adapters.orm import models
+from microblog.adapters.persistence import models
 
 logger = logging.getLogger(__name__)
 
