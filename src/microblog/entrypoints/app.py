@@ -1,9 +1,13 @@
+import logging
+
 import asyncio
 import typer
 from fastapi import FastAPI
 
 from ..adapters.router import router
 from ..adapters.persistence.db import init_models
+
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
 app.include_router(router)

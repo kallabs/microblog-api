@@ -1,13 +1,17 @@
+from __future__ import annotations
+
 import logging
 
-from ..abstract import AbstractPostRepo
+from sqlalchemy import select
+
+from microblog.app.gateways.post import AbstractPostGateway
 from microblog.domain.entities import Post
 from microblog.adapters.persistence import models
 
 logger = logging.getLogger(__name__)
 
 
-class AlchemyPostRepo(AbstractPostRepo):
+class AlchemyPostGateway(AbstractPostGateway):
     def __init__(self, session):
         self.session = session
 
@@ -22,8 +26,14 @@ class AlchemyPostRepo(AbstractPostRepo):
         return post_obj
     
     async def get(self, id: int) -> Post:
-        return self.session.query(models.Post)\
+        query = select(models.Post)\
             .filter_by(id=id)\
             .first()
+        result = await self.session.execute(query)
+        return result.scalars().one()
 
-    
+    async def list(self) -> list[Post]:
+        query = select(models.Post)
+        result = await self.session.execute(query)
+        
+        return result.fetchall()

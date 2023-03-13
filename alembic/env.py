@@ -29,9 +29,8 @@ config.set_main_option("sqlalchemy.url", DATABASE_URL)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from app import db
-from app.blog.models import *
-from app.post.models import *
+from microblog.adapters.persistence import db
+from microblog.adapters.persistence.models import *
 
 target_metadata = db.Base.metadata
 
