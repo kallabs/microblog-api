@@ -5,9 +5,11 @@ import logging
 from fastapi import APIRouter, Depends
 
 from microblog.domain.entities import Post
+from microblog.app.usecases.exceptions import TitleAlreadyExists
 from microblog.app.usecases.create_post import CreatePostInteractor, CreatePostInputModel
 from microblog.app.usecases.list_posts import ListPostsInputModel, ListPostsInteractor
 from .auth import get_current_user, User
+from .gateways.utils import UtilsGateway
 from .persistence.unit_of_work import AlchemyUnitOfWork
 from .schemas import CreatePostRequest
 
@@ -26,11 +28,21 @@ async def create_post(
         author_id=user.id,
         title=data.title,
         content=data.content)
+    utils_gateway = UtilsGateway()
+    interactor = CreatePostInteractor(uow, utils_gateway)
     
-    interactor = CreatePostInteractor(uow)
-    post = await interactor(input_model)
+    try:
+        post = await interactor(input_model)
+    except TitleAlreadyExists:
+        return {
+            'data': None,
+            'errors': 'Such title already exists'
+        }
     
-    return post
+    return {
+        'data': post,
+        'errors': None,
+    }
 
 
 @router.get("/posts/")
@@ -44,4 +56,7 @@ async def list_posts(
     interactor = ListPostsInteractor(uow)
     posts = await interactor(input_model)
 
-    return posts
+    return {
+        'data': posts,
+        'errors': None,
+    }

@@ -27,7 +27,6 @@ class ListPostsInteractor(ListPostsInputPort):
     
     async def __call__(self, input_model: ListPostsInputModel) -> list[Post]:
         async with self._uow as uow:
-            logger.debug(uow)
             posts = await uow.posts.list()
 
         return posts

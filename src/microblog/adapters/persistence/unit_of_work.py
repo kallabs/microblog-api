@@ -2,7 +2,7 @@ import abc
 import asyncio
 
 from microblog.adapters.persistence.db import async_session
-from microblog.adapters.persistence.gateways.post import AlchemyPostGateway
+from microblog.adapters.gateways.post import AlchemyPostGateway
 from microblog.app.unit_of_work import AbstractUnitOfWork
 
 

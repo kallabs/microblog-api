@@ -14,3 +14,6 @@ class AbstractPostGateway(abc.ABC):
 
     @abc.abstractmethod
     def list(self) -> list[Post]: ...
+
+    @abc.abstractmethod
+    def has_such_title(self, title: str) -> bool: ...

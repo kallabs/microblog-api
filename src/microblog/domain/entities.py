@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import Enum
+from enum import IntEnum
 
 
 class Tag:
@@ -26,7 +26,7 @@ class Tag:
         self._name = value
 
 
-class PostStatus(Enum):
+class PostStatus(IntEnum):
     draft = 0
     published = 1
     deleted = 2
